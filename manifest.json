@@ -1,0 +1,16 @@
+{
+	"name": "FnfT Search",
+	"version": "1.0",
+	"manifest_version": 2,
+
+	"description": "Search for selected text in FnfT.",
+	"icons": {
+		"128": "logo_128.png",
+		"48": "logo_48.png"
+	},
+
+	"permissions": [ "contextMenus" ],
+	"background": {
+		"scripts": [ "fnftsearch.env.js", "fnftsearch.background.js" ]
+	}
+}
