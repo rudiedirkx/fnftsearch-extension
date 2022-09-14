@@ -1,9 +1,12 @@
 importScripts('fnftsearch.env.js');
 
-chrome.contextMenus.create({
-	"title": 'Search in FnfT',
-	"id": 'fnftsearch',
-	"contexts": ['selection'],
+chrome.runtime.onInstalled.addListener(function() {
+	chrome.contextMenus.create({
+		"title": 'Search in FnfT',
+		"id": 'fnftsearch',
+		"contexts": ['selection'],
+	});
+	console.log(chrome.runtime.lastError);
 });
 console.log(chrome.runtime.lastError);
 
