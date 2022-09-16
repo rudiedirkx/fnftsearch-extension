@@ -6,9 +6,9 @@ chrome.runtime.onInstalled.addListener(function() {
 		"id": 'fnftsearch',
 		"contexts": ['selection'],
 	});
-	console.log(chrome.runtime.lastError);
+	console.log(1, chrome.runtime.lastError);
 });
-console.log(chrome.runtime.lastError);
+console.log(2, chrome.runtime.lastError);
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
 	const url = FNFTSEARCH_FNFT_URL + '?search=' + encodeURIComponent(info.selectionText.trim());
@@ -17,6 +17,6 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 		active: true,
 		index: tab.index + 1,
 	});
-	console.log(chrome.runtime.lastError);
+	console.log(3, chrome.runtime.lastError);
 });
-console.log(chrome.runtime.lastError);
+console.log(4, chrome.runtime.lastError);
