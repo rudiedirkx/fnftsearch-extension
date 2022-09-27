@@ -5,12 +5,27 @@
 
 	"description": "Search for selected text in FnfT.",
 	"icons": {
-		"128": "logo_128.png",
-		"48": "logo_48.png"
+		"128": "logo_128.png"
 	},
 
-	"permissions": [ "contextMenus" ],
+	"permissions": [
+		"contextMenus",
+		"storage"
+	],
 	"background": {
 		"service_worker": "fnftsearch.sw.js"
+	},
+	"content_scripts": [
+		{
+			"all_frames": true,
+			"css": ["fnftsearch.content.css"],
+			"js": ["fnftsearch.content.js"],
+			"matches": ["https://f95zone.to/*"],
+			"run_at": "document_idle"
+		}
+	],
+	"options_ui": {
+		"page": "options/options.html",
+		"open_in_tab": false
 	}
 }

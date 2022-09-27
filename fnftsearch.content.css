@@ -1,0 +1,34 @@
+/* favorites */
+a.rweb-in-fnft {
+	color: red;
+	margin-left: 0.5em;
+}
+a.rweb-in-fnft::after {
+	content: " (NOT EXISTS)";
+}
+a.rweb-in-fnft.rweb-exists {
+	color: green;
+}
+a.rweb-in-fnft.rweb-exists::after {
+	content: " (EXISTS)";
+}
+
+/* scraper */
+.rweb-fetcher,
+.rweb-adder {
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	padding: 12px 20px;
+	font-weight: bold;
+	font-size: 30px;
+	color: green;
+}
+.rweb-fetcher.error {
+	color: red;
+}
+
+.rweb-adder {
+	left: 60%;
+}

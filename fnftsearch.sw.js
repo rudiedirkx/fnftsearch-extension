@@ -1,22 +1,33 @@
-importScripts('fnftsearch.env.js');
+"use strict";
 
-chrome.runtime.onInstalled.addListener(function() {
+function openOptionsPage() {
+	chrome.tabs.create({
+		url: chrome.runtime.getURL('options/options.html'),
+		active: true,
+	});
+}
+
+chrome.runtime.onInstalled.addListener(function(info) {
 	chrome.contextMenus.create({
 		"title": 'Search in FnfT',
 		"id": 'fnftsearch',
 		"contexts": ['selection'],
 	});
-	console.log(1, chrome.runtime.lastError);
-});
-console.log(2, chrome.runtime.lastError);
 
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
-	const url = FNFTSEARCH_FNFT_URL + '?search=' + encodeURIComponent(info.selectionText.trim());
+	if (info.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+		openOptionsPage();
+	}
+});
+
+chrome.contextMenus.onClicked.addListener(async function(info, tab) {
+	const config = await chrome.storage.local.get('config');
+	const FNFTSEARCH_FNFT_URL = config.config && config.config.fnftUrl;
+	if (!FNFTSEARCH_FNFT_URL) return openOptionsPage();
+
+	const url = FNFTSEARCH_FNFT_URL + '/?search=' + encodeURIComponent(info.selectionText.trim());
 	chrome.tabs.create({
 		url,
 		active: true,
 		index: tab.index + 1,
 	});
-	console.log(3, chrome.runtime.lastError);
 });
-console.log(4, chrome.runtime.lastError);
