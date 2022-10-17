@@ -11,9 +11,12 @@
 	const FNFTSEARCH_FNFT_URL = config.config && config.config.fnftUrl;
 	if (!FNFTSEARCH_FNFT_URL) return;
 
-	/* favorites */
+	/* favorites & search */
 	(async function() {
-		if (location.pathname != '/account/bookmarks') return;
+		if (
+			location.pathname != '/account/bookmarks' &&
+			location.pathname != '/search/222940357/'
+		) return;
 
 		const rsp = await fetch(FNFTSEARCH_FNFT_URL + '/api-ids.php').then(x => x.json());
 		console.log('ids', rsp.ids);
