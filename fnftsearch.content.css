@@ -4,13 +4,13 @@ a.rweb-in-fnft {
 	margin-left: 0.5em;
 }
 a.rweb-in-fnft::after {
-	content: " (NOT EXISTS)";
+	content: " (NOT IN FNFT)";
 }
 a.rweb-in-fnft.rweb-exists {
 	color: green;
 }
 a.rweb-in-fnft.rweb-exists::after {
-	content: " (EXISTS)";
+	content: " (IN FNFT)";
 }
 
 /* scraper */
