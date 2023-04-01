@@ -18,11 +18,12 @@ a.rweb-in-fnft.rweb-exists::after {
 .rweb-adder {
 	position: fixed;
 	top: 10px;
-	left: 50%;
+	left: 70%;
 	transform: translate(-50%, 0);
-	padding: 12px 20px;
+	z-index: 9876;
+	padding: 8px 20px;
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 24px;
 	color: green;
 }
 .rweb-fetcher.error {
