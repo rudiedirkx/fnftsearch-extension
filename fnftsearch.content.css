@@ -26,6 +26,10 @@ a.rweb-in-fnft.rweb-exists::after {
 	font-size: 24px;
 	color: green;
 }
+body.lg-on .rweb-fetcher,
+body.lg-on .rweb-adder {
+	z-index: 0;
+}
 .rweb-fetcher.error {
 	color: red;
 }
