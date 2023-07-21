@@ -18,7 +18,7 @@ a.rweb-in-fnft.rweb-exists::after {
 .rweb-adder {
 	position: fixed;
 	top: 10px;
-	left: 70%;
+	left: 64%;
 	transform: translate(-50%, 0);
 	z-index: 9876;
 	padding: 8px 20px;
