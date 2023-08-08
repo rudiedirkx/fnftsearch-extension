@@ -1,16 +1,22 @@
-/* favorites */
 a.rweb-in-fnft {
-	color: red;
-	margin-left: 0.5em;
-}
-a.rweb-in-fnft::after {
-	content: " (NOT IN FNFT)";
+	--rweb-exists-color: red;
 }
 a.rweb-in-fnft.rweb-exists {
-	color: green;
+	--rweb-exists-color: green;
 }
-a.rweb-in-fnft.rweb-exists::after {
-	content: " (IN FNFT)";
+
+/* latest releases */
+body.rweb-releases a.rweb-in-fnft h2 {
+	color: var(--rweb-exists-color);
+}
+
+/* bookmarks */
+body.rweb-bookmarks a.rweb-in-fnft {
+	color: var(--rweb-exists-color);
+	margin-left: 0.5em;
+}
+body.rweb-bookmarks a.rweb-in-fnft::after {
+	content: " (FNFT)";
 }
 
 /* scraper */

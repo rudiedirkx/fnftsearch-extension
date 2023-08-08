@@ -11,12 +11,34 @@
 	const FNFTSEARCH_FNFT_URL = config.config && config.config.fnftUrl;
 	if (!FNFTSEARCH_FNFT_URL) return;
 
-	/* favorites & search */
+	/* latest releases */
+	setTimeout(async function() {
+		if (location.pathname != '/sam/latest_alpha/') return;
+
+		document.body.classList.add('rweb-releases');
+
+		const rsp = await fetch(FNFTSEARCH_FNFT_URL + '/api-ids.php').then(x => x.json());
+		console.log('ids', rsp.ids);
+
+		$$('a[href*="/threads/').forEach(a => {
+			const m = a.pathname.match(/^\/threads\/(\d+)\/$/);
+			if (!m) return;
+			const id = parseInt(m[1]);
+
+			a.classList.add('rweb-in-fnft');
+			a.classList.toggle('rweb-exists', rsp.ids.includes(id));
+		});
+
+	}, 1000);
+
+	/* bookmarks & search */
 	(async function() {
 		if (
 			location.pathname != '/account/bookmarks' &&
 			location.pathname != '/search/222940357/'
 		) return;
+
+		document.body.classList.add('rweb-bookmarks');
 
 		const rsp = await fetch(FNFTSEARCH_FNFT_URL + '/api-ids.php').then(x => x.json());
 		console.log('ids', rsp.ids);
