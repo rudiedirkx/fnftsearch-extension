@@ -38,7 +38,12 @@ function setConfigs() {
 	return loadConfig().then(config => {
 		getConfigElements().map(item => {
 			if (config[item.dataset.save] != null) {
-				item.value = config[item.dataset.save];
+				if (item.type == 'checkbox') {
+					item.checked = !!config[item.dataset.save];
+				}
+				else {
+					item.value = config[item.dataset.save];
+				}
 			}
 		});
 	});
@@ -51,7 +56,7 @@ function enableForm() {
 function getConfigs() {
 	return new Promise(function(resolve) {
 		var config = getConfigElements().reduce(function(config, item) {
-			config[item.dataset.save] = item.value;
+			config[item.dataset.save] = item.type == 'checkbox' ? Number(item.checked) : item.value;
 			return config;
 		}, {});
 		resolve(config);

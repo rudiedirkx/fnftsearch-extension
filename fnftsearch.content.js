@@ -9,6 +9,7 @@
 
 	const config = await chrome.storage.local.get('config');
 	const FNFTSEARCH_FNFT_URL = config.config && config.config.fnftUrl;
+	const autoScrape = config.config && config.config.autoScrape;
 	if (!FNFTSEARCH_FNFT_URL) return;
 
 	/* latest releases */
@@ -97,18 +98,19 @@
 					}
 				}
 			}, 55000);
-console.log('Start auto fetcher interval');
-			const t = setInterval(function() {
-console.log('Auto fetcher iteration');
-				const d = new Date;
-				if (d.getHours() == 0 && [1, 2, 3].includes(d.getMinutes())) {
-					clearInterval(t);
-console.log('Start auto fetcher');
-					$('.rweb-fetcher').click();
-				}
-			}, 25000);
 
-			console.log(new Date(performance.timing.domComplete));
+			if (autoScrape) {
+console.log('Start auto fetcher interval');
+				const t = setInterval(function() {
+console.log('Auto fetcher iteration');
+					const d = new Date;
+					if (d.getHours() == 0 && [1, 2, 3].includes(d.getMinutes())) {
+						clearInterval(t);
+console.log('Start auto fetcher');
+						$('.rweb-fetcher').click();
+					}
+				}, 25000);
+			}
 		}
 
 		const id = rwebGetId(location.href);
