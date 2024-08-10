@@ -1,0 +1,25 @@
+[
+	{
+		"id": 1,
+		"action": {
+			"requestHeaders": [
+				{
+					"header": "referer",
+					"operation": "set",
+					"value": "https://f95zone.to"
+				}
+			],
+			"type": "modifyHeaders"
+		},
+		"condition": {
+			"resourceTypes": [
+				"image",
+				"main_frame",
+				"other",
+				"stylesheet",
+				"sub_frame"
+			],
+			"urlFilter": "https://attachments.f95zone.to/"
+		}
+	}
+]

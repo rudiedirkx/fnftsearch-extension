@@ -10,8 +10,15 @@
 
 	"permissions": [
 		"contextMenus",
+		"declarativeNetRequest",
+		"declarativeNetRequestWithHostAccess",
+		"declarativeNetRequestFeedback",
 		"storage"
 	],
+	"host_permissions": [
+		"https://attachments.f95zone.to/*"
+	],
+
 	"background": {
 		"service_worker": "fnftsearch.sw.js"
 	},
@@ -24,6 +31,15 @@
 			"run_at": "document_idle"
 		}
 	],
+	"declarative_net_request" : {
+		"rule_resources" : [
+			{
+				"id": "ruleset_1",
+				"enabled": true,
+				"path": "net_rules.json"
+			}
+		]
+	},
 	"options_ui": {
 		"page": "options/options.html",
 		"open_in_tab": false

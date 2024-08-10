@@ -31,3 +31,9 @@ chrome.contextMenus.onClicked.addListener(async function(info, tab) {
 		index: tab.index + 1,
 	});
 });
+
+
+
+// chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function(info) {
+// 	console.log(info.request, info.rule);
+// });
