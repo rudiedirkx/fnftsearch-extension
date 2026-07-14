@@ -8,10 +8,12 @@ function openOptionsPage() {
 }
 
 chrome.runtime.onInstalled.addListener(function(info) {
-	chrome.contextMenus.create({
-		"title": 'Search in FnfT',
-		"id": 'fnftsearch',
-		"contexts": ['selection'],
+	chrome.contextMenus.removeAll(function() {
+		chrome.contextMenus.create({
+			"title": 'Search in FnfT',
+			"id": 'fnftsearch',
+			"contexts": ['selection'],
+		});
 	});
 
 	if (info.reason === chrome.runtime.OnInstalledReason.INSTALL) {
