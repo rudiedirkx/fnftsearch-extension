@@ -115,7 +115,8 @@ console.log('Start auto fetcher');
 
 		const id = rwebGetId(location.href);
 		if (id) {
-			const fetchOne = () => scrape(location.href, ['f95_id', id]).then(txt => {
+			const fetchOne = async () => {
+				let txt = await scrape(location.href, ['f95_id', id]);
 				console.log(txt);
 				try {
 					txt = JSON.stringify(JSON.parse(txt), null, '  ');
@@ -123,7 +124,7 @@ console.log('Start auto fetcher');
 				catch (ex) {}
 				alert(txt);
 				return txt;
-			});
+			};
 
 			const btn = document.createElement('button');
 			btn.className = 'rweb-fetcher';
@@ -139,8 +140,9 @@ console.log('Start auto fetcher');
 		}
 	})();
 
-	function scrape(url, [idKey, idValue]) {
-		return fetch(url).then(async (rsp) => {
+	async function scrape(url, [idKey, idValue]) {
+		try {
+			const rsp = await fetch(url);
 			const html = await rsp.text();
 			if (rsp.status != 200) {
 				return null;
@@ -151,53 +153,53 @@ console.log('Start auto fetcher');
 			fd.append('url', rsp.url);
 			fd.append('html', new Blob([html], {type: 'text/html'}));
 
-			return fetch(new Request(FNFTSEARCH_FNFT_URL + '/scraper-save.php', {
+			const saved = await fetch(new Request(FNFTSEARCH_FNFT_URL + '/scraper-save.php', {
 				method: 'POST',
 				body: fd,
-			})).then(rsp => rsp.text());
-		}, () => {
-console.warn('Uncatchable fetch error!?');
+			}))
+			return saved.text();
+		}
+		catch (ex) {
+			console.warn(ex);
 			return null;
-		});
+		}
 	}
 
-	function start(callback) {
-		fetch(FNFTSEARCH_FNFT_URL + '/scraper-start.php').then(rsp => rsp.json()).then(rsp => {
-			console.log(rsp);
-			const todo = rsp.urls.map(([id, url]) => ([id, url, 3]));
-			const total = todo.length;
-			console.log(`FETCHING ${total} SOURCES...`);
-			const next = () => {
-				let [id, url, attempt] = todo.pop();
-				console.log(id, url);
+	async function start(callback) {
+		const rsp = await fetch(FNFTSEARCH_FNFT_URL + '/scraper-start.php').then(rsp => rsp.json());
+		console.log(rsp);
+		const todo = rsp.urls.map(([id, url]) => ([id, url, 3]));
+		const total = todo.length;
+		console.log(`FETCHING ${total} SOURCES...`);
+		const next = async () => {
+			let [id, url, attempt] = todo.pop();
+			console.log(id, url);
 
-				/**
-				console.log(`${total - todo.length} / ${total}`);
-				callback({total, done: total - todo.length});
-				todo.length && setTimeout(next, Math.random() * 500);
-				return;
-				/**/
+			/**
+			console.log(`${total - todo.length} / ${total}`);
+			callback({total, done: total - todo.length});
+			todo.length && setTimeout(next, Math.random() * 500);
+			return;
+			/**/
 
-				scrape(url, ['id', id]).then(txt => {
-					console.log(`${total - todo.length} / ${total}`);
-					var wait = 1000 + Math.random() * 1000 * (MAX_DELAY - 1)
-					if (txt) {
-						console.log(txt);
-					}
-					else {
-						console.warn("Couldn't load ", id, url);
-						wait += MAX_DELAY * 1000;
-						if (attempt > 0) {
-							todo.unshift([id, url, --attempt]);
-						}
-					}
+			const txt = await scrape(url, ['id', id]);
+			console.log(`${total - todo.length} / ${total}`);
+			var wait = 1000 + Math.random() * 1000 * (MAX_DELAY - 1)
+			if (txt) {
+				console.log(txt);
+			}
+			else {
+				console.warn("Couldn't load ", id, url);
+				wait += MAX_DELAY * 1000;
+				if (attempt > 0) {
+					todo.unshift([id, url, --attempt]);
+				}
+			}
 
-					callback({txt, total, done: total - todo.length});
-					todo.length && setTimeout(next, wait);
-				});
-			};
-			todo.length && next();
-		});
+			callback({txt, total, done: total - todo.length});
+			todo.length && setTimeout(next, wait);
+		};
+		todo.length && next();
 	}
 
 })();
