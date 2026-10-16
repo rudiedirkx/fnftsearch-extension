@@ -89,6 +89,13 @@
 			};
 			document.body.append(btn);
 
+			setTimeout(function() {
+				const title = $('h1').textContent.trim();
+				if (title !== 'Account details') {
+					alert("Page isn't loading..");
+				}
+			}, 500);
+
 			setInterval(function() {
 				const d = new Date;
 				if (d.getMinutes() == 59) {
