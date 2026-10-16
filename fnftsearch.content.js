@@ -79,7 +79,8 @@
 				const title = document.title;
 				start(state => {
 					state.txt || btn.classList.add('error');
-					btn.textContent = `Fetching... (${state.done} / ${state.total})`;
+					const fails = state.failed ? ` (${state.failed}F)` : '';
+					btn.textContent = `Fetching... (${state.done} / ${state.total})${fails}`;
 					document.title = `${title} (${state.done} / ${state.total})`;
 					if (state.done >= state.total) {
 						window.removeEventListener('beforeunload', unload);
@@ -177,6 +178,7 @@ console.log('Start auto fetcher');
 		console.log(rsp);
 		const todo = rsp.urls.map(([id, url]) => ([id, url, 3]));
 		const total = todo.length;
+		let failed = 0;
 		console.log(`FETCHING ${total} SOURCES...`);
 		const next = async () => {
 			let [id, url, attempt] = todo.pop();
@@ -197,13 +199,14 @@ console.log('Start auto fetcher');
 			}
 			else {
 				console.warn("Couldn't load ", id, url);
+				failed++;
 				wait += MAX_DELAY * 1000;
 				if (attempt > 0) {
 					todo.unshift([id, url, --attempt]);
 				}
 			}
 
-			callback({txt, total, done: total - todo.length});
+			callback({txt, failed, total, done: total - todo.length});
 			todo.length && setTimeout(next, wait);
 		};
 		todo.length && next();
